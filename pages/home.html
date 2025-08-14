@@ -35,6 +35,12 @@
         <div id="status">
             <strong>Status:</strong> <span id="status-text">Loading...</span>
         </div>
+        
+        <div style="margin-top: 20px;">
+            <button id="demo-btn" style="padding: 10px 20px; background: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                Open Demo Page
+            </button>
+        </div>
     </div>
     
     <script src="../lib/slidenav.kit.js"></script>
@@ -42,19 +48,28 @@
         // Initialize the page kit
         SlideNavKit.init({
             onStartup: (options) => {
-                document.getElementById('status-text').textContent = 'Initialized with kit';
+                document.getElementById('status-text').textContent = 'Received startup message from shell';
                 console.log('Page startup with options:', options);
+                
+                // Signal ready after a short delay to demonstrate the animation
+                setTimeout(() => {
+                    SlideNavKit.signalReady();
+                    document.getElementById('status-text').textContent = 'Ready and connected to shell';
+                }, 200);
             },
             onRestore: (data) => {
                 console.log('Page restored with data:', data);
             }
         });
         
-        // Signal that the page is ready
-        setTimeout(() => {
-            SlideNavKit.signalReady();
-            document.getElementById('status-text').textContent = 'Ready and connected to shell';
-        }, 100);
+        // Demo button to navigate to demo page
+        document.getElementById('demo-btn').addEventListener('click', () => {
+            // Request parent shell to add demo page
+            window.parent.postMessage({
+                type: 'page:addPage',
+                payload: { url: 'pages/demo.html' }
+            }, '*');
+        });
     </script>
 </body>
 </html>
