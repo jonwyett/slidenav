@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SlideNav 2.0 - Main Shell</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <script src="lib/slidenav.logger.js"></script>
+    <script src="lib/slidenav.shell.js"></script>
+    
+    <script>
+        // Dev mode logger subscriber - prints logs to console
+        SlideNavLogger.on('error', (logData) => {
+            console.error(`[SlideNav Error] ${logData.message}`, logData.data);
+        });
+        
+        SlideNavLogger.on('warn', (logData) => {
+            console.warn(`[SlideNav Warning] ${logData.message}`, logData.data);
+        });
+        
+        SlideNavLogger.on('debug', (logData) => {
+            console.log(`[SlideNav Debug] ${logData.message}`, logData.data);
+        });
+        
+        // Initialize shell with home page in debug mode
+        const shell = new SlideNav.Shell('pages/home.html', { debug: true });
+        
+        SlideNavLogger.debug('Shell initialized', { initialPage: 'pages/home.html' });
+    </script>
+</body>
+</html>
